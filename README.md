@@ -17,7 +17,9 @@ This is a Node.js + Express project with Docker setup, JWT authentication (Acces
 Create a .env file at the root of the project (same level as docker-compose.yml) with the following content:
 
 PORT=3000
+
 ACCESS_TOKEN_SECRET=my_access_token_secret
+
 REFRESH_TOKEN_SECRET=my_refresh_token_secret
 
 ### 3. Build and Run Containers
