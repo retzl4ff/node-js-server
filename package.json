@@ -1,0 +1,37 @@
+{
+  "name": "js-server",
+  "version": "1.0.0",
+  "description": "That is a repository created to build a server from scratch... I really eager to understand how every piece of express and redis can be worked together!",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node main.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/retzl4ff/node-js-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/retzl4ff/node-js-server/issues"
+  },
+  "homepage": "https://github.com/retzl4ff/node-js-server#readme",
+  "dependencies": {
+    "connect-redis": "^8.0.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
+    "redis": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
+    "@types/express": "^5.0.1",
+    "@types/express-session": "^1.18.1",
+    "@types/jsonwebtoken": "^9.0.9"
+  }
+}
