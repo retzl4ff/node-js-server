@@ -9,12 +9,12 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 export const mockCredentials = [
-  { id: 1, companyId: 10, username: 'jon doe', password: '123456' },
-  { id: 2, companyId: 20, username: 'kelly edwards', password: '102030' },
-  { id: 3, companyId: 30, username: 'mike william', password: '108080' },
+  { id: 1, companyId: 10, username: "jon doe", password: "123456" },
+  { id: 2, companyId: 20, username: "kelly edwards", password: "102030" },
+  { id: 3, companyId: 30, username: "mike william", password: "108080" },
 ];
 
-const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
+const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, TEST } = process.env;
 export const accessTokenSecret = ACCESS_TOKEN_SECRET || "access_secret";
 export const refreshTokenSecret = REFRESH_TOKEN_SECRET || "refresh_secret";
 
@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 app.get("/", jwtAuth, (req, res) => {
   try {
-    res.json({ msg: "Welcome Home!"});
+    res.json({ msg: "Welcome Home!" });
   } catch {
     res.status(500).json({ error: "Something went wrong!" });
   }
@@ -38,35 +38,43 @@ app.post("/login", (req, res) => {
 
     const mockUser = mockCredentials.find((user) => {
       return user.username === username && user.password === password;
-    })
+    });
 
     if (mockUser == null) {
-      res.status(401).json({ msg: "Username or Password is wrong" });
+      res.status(401).json({ msg: "Username or Password is incorrect" });
       return;
     }
 
-    const payload = { id: mockUser.id, companyId: mockUser.companyId, rememberMe };
+    const payload = {
+      id: mockUser.id,
+      companyId: mockUser.companyId,
+      rememberMe,
+    };
 
     const accessToken = generateAccessToken(payload, accessTokenSecret);
-    const refreshToken = generateRefreshToken(payload, refreshTokenSecret, rememberMe);
+    const refreshToken = generateRefreshToken(
+      payload,
+      refreshTokenSecret,
+      rememberMe
+    );
 
-    res.cookie("refreshToken", refreshToken, { 
-      httpOnly: true, 
-      secure: true, 
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
       sameSite: "strict",
-      maxAge: rememberMe ? 30 * 24 * 60 * 60 * 1000 : 30 * 60 * 1000
+      maxAge: rememberMe ? 30 * 24 * 60 * 60 * 1000 : 30 * 60 * 1000,
     });
 
-    res.cookie("accessToken", accessToken, { 
-      httpOnly: true, 
-      secure: true, 
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
       sameSite: "strict",
       maxAge: 15 * 60 * 1000,
     });
 
     req.user = mockUser.id;
     req.companyId = mockUser.companyId;
-    res.json({ msg: `Welcome ${username}!`   })
+    res.json({ msg: `Welcome ${username}!` });
   } catch {
     res.status(500).json({ msg: "Something went wrong!" });
   }
@@ -76,7 +84,9 @@ app.post("/register", (req, res) => {
   try {
     const { username, password, companyId, rememberMe } = req.body;
 
-    const alreadyUsed = mockCredentials.some((user) => user.username === username);
+    const alreadyUsed = mockCredentials.some(
+      (user) => user.username === username
+    );
 
     if (alreadyUsed) {
       res.status(500).json({ msg: "Username has already been used" });
@@ -89,25 +99,29 @@ app.post("/register", (req, res) => {
     const payload = { id: newId, companyId, rememberMe };
 
     const accessToken = generateAccessToken(payload, accessTokenSecret);
-    const refreshToken = generateRefreshToken(payload, refreshTokenSecret, rememberMe);
+    const refreshToken = generateRefreshToken(
+      payload,
+      refreshTokenSecret,
+      rememberMe
+    );
 
-    res.cookie("refreshToken", refreshToken, { 
-      httpOnly: true, 
-      secure: true, 
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
       sameSite: "strict",
-      maxAge: rememberMe ? 30 * 24 * 60 * 60 * 1000 : 30 * 60 * 1000
+      maxAge: rememberMe ? 30 * 24 * 60 * 60 * 1000 : 30 * 60 * 1000,
     });
 
-    res.cookie("accessToken", accessToken, { 
-      httpOnly: true, 
-      secure: true, 
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
       sameSite: "strict",
       maxAge: 15 * 60 * 1000,
     });
 
     req.user = newId;
     req.companyId = companyId;
-    res.json({ msg: `Welcome ${username}!` })
+    res.json({ msg: `Welcome ${username}!` });
   } catch {
     res.status(500).json({ msg: "Something went wrong!" });
   }
@@ -120,14 +134,14 @@ app.post("/logout", (req, res) => {
       secure: true,
       sameSite: "strict",
     });
-  
+
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: true,
       sameSite: "strict",
     });
-  
-    res.status(200).json({ message: "User has logged out succesfully" });
+
+    res.status(200).json({ msg: "User has logged out succesfully" });
   } catch {
     res.status(500).json({ error: "Something went wrong!" });
   }
@@ -145,8 +159,14 @@ app.get("/userInfo", jwtAuth, (req, res) => {
   } catch {
     res.status(500).json({ msg: "User doesn't exists!" });
   }
-})
+});
 
-app.listen(port, () => {
-  console.log(`Hi! i am the express server and i'm actually running on port ${port}`)
-})
+if (TEST !== "true") {
+  app.listen(port, () => {
+    console.log(
+      `Hi! i am the express server and i'm actually running on port ${port}`
+    );
+  });
+}
+
+export default app;

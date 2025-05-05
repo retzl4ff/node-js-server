@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "node main.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run build && mocha dist/tests/**/*.test.js",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/retzl4ff/node-js-server.git"
+  },
+  "mocha": {
+    "timeout": 10000
   },
   "keywords": [],
   "author": "",
@@ -29,9 +33,18 @@
     "redis": "^5.0.0"
   },
   "devDependencies": {
+    "@types/chai": "^5.2.1",
     "@types/cookie-parser": "^1.4.8",
     "@types/express": "^5.0.1",
     "@types/express-session": "^1.18.1",
-    "@types/jsonwebtoken": "^9.0.9"
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.15.3",
+    "@types/supertest": "^6.0.3",
+    "chai": "^5.2.0",
+    "mocha": "^11.2.2",
+    "supertest": "^7.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
