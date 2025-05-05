@@ -20,10 +20,9 @@ Create a .env file at the root of the project (same level as docker-compose.yml)
 
 ```
 PORT=3000
-
 ACCESS_TOKEN_SECRET=my_access_token_secret
-
 REFRESH_TOKEN_SECRET=my_refresh_token_secret
+TEST=false
 ```
 
 ### 3. Build and Run Containers
