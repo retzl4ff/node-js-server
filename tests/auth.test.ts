@@ -1,5 +1,4 @@
 import { expect, use } from "chai";
-import { mockCredentials } from "../src/main.js";
 import request from "supertest";
 import app from "../src/main.js";
 
