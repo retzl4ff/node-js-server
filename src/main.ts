@@ -133,7 +133,7 @@ app.post("/logout", (req, res) => {
   }
 });
 
-app.get("/userInfo", (req, res) => {
+app.get("/userInfo", jwtAuth, (req, res) => {
   try {
     const userInfo = mockCredentials.find((user) => {
       return user.id === req.user;
