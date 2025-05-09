@@ -28,7 +28,7 @@ REFRESH_TOKEN_SECRET=my_refresh_token_secret
 To build the images and start the containers, use the following command:
 
 ```
-docker-compose up --build
+docker compose up --build
 ```
 
 The app will be accessible at http://localhost:3000.
